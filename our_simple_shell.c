@@ -9,11 +9,11 @@ int main(int argc, char *argv[])
 {
 	if (argc > 1)
 	{
-		exe_cmd(char *cmd, char *args[]);
+		exe_cmd(argv[1], argv + 1);
 	}
 	else
 	{
-		read_executing_cmds(void);
+		read_executing_cmds();
 	}
 	return (0);
 }
