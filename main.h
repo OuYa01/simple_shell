@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <sys/ait.h>
+#include <sys/wait.h>
 
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
