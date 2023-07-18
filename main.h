@@ -12,5 +12,6 @@
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 int _strlen(char *s);
-
+void exe_cmd(char *cmd, char *args[]);
+int read_executing_cmds(void);
 #endif
