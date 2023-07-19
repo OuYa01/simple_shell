@@ -1,4 +1,6 @@
 #include "main.h"
+#include <errno.h>
+#include <ctype.h>
 
 /**
  * read_executing_cmds - read and execute the commands
@@ -24,18 +26,23 @@ int read_executing_cmds(void)
 		token = strtok(buffer, " \t\n");
 		if (char_count == EOF)
 		{
-			perror("error");
-			exit(EXIT_FAILURE);
+			if (errno != 0)
+			{
+				perror("error");
+				exit(EXIT_FAILURE);
+			}
+			else
+			{
+				exit(EXIT_SUCCESS);
+			}
 		}
 		array = malloc((char_count + 1) * 8);
-		//
+
 		if (array == NULL)
 		{
 			perror("malloc");
 			exit(EXIT_FAILURE);
 		}
-		//
-		
 		for (i = 0; token; i++)
 		{
 			array[i] = token;
