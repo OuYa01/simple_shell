@@ -24,6 +24,7 @@ int read_executing_cmds(void)
 		write(1, "ou&zo$ ", 7);
 		char_count = getline(&buffer, &size_of_buff, stdin);
 		token = strtok(buffer, " \t\n");
+		i = 0;
 		if (char_count == EOF)
 		{
 			if (errno != 0)
@@ -36,31 +37,46 @@ int read_executing_cmds(void)
 				exit(EXIT_SUCCESS);
 			}
 		}
-		array = malloc((char_count + 1) * 8);
+		if (char_count > 0)
+		{
+			array = malloc((char_count + 1) * sizeof(char*));
 
-		if (array == NULL)
-		{
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
-		for (i = 0; token; i++)
-		{
-			array[i] = token;
-			token = strtok(NULL, " \t\n");
-		}
-		array[i] = NULL;
-		our_pid = fork();
-		if (our_pid == 0)
-		{
-			if (execve(array[0], array, NULL) == -1)
+			if (array == NULL)
 			{
-				perror("error exe");
+				perror("malloc");
 				exit(EXIT_FAILURE);
+			}
+			if (token == NULL)
+			{
+				free(array);
+				continue;
+			}
+			for (i = 0; token; i++)
+			{
+				array[i] = token;
+				token = strtok(NULL, " \t\n");
+			}
+			array[i] = NULL;
+			our_pid = fork();
+			if (our_pid == 0)
+			{
+				if (execve(array[0], array, NULL) == -1)
+				{
+					perror("error exe");
+					free(array);
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				wait(&stat);
+				free(array);
 			}
 		}
 		else
-			wait(&stat);
-		free(array);
+		{
+			return (0);
+		}
 	}
 	return (EXIT_SUCCESS);
 }
