@@ -2,14 +2,14 @@
 
 /**
  * exe_cmd - execute command with arguments
- * @cmd: command 
+ * @cmd: command
  * @args: argument array
  *
  */
 
 void exe_cmd(char *cmd, char *args[])
 {
-        pid_t our_pid;
+	pid_t our_pid;
 	int stat;
 
 	our_pid = fork();

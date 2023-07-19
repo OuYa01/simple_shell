@@ -1,7 +1,9 @@
 #include "main.h"
 
 /**
- * read_esecuting_cmds - read and execute the commands
+ * read_executing_cmds - read and execute the commands
+ *
+ * Return: 0 if scc
  *
  */
 
@@ -26,6 +28,14 @@ int read_executing_cmds(void)
 			exit(EXIT_FAILURE);
 		}
 		array = malloc((char_count + 1) * 8);
+		//
+		if (array == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+		//
+		
 		for (i = 0; token; i++)
 		{
 			array[i] = token;
@@ -45,4 +55,5 @@ int read_executing_cmds(void)
 			wait(&stat);
 		free(array);
 	}
+	return (EXIT_SUCCESS);
 }
