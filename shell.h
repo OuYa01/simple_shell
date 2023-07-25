@@ -15,6 +15,7 @@ char *read_line();
 char **break_line(char *line);
 int exe_cmd(char **args);
 void memory(char *line, char **args);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /*string.h*/
 int _strcmp(char *s1, char *s2);
