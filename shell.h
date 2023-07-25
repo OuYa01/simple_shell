@@ -16,4 +16,7 @@ char **break_line(char *line);
 int exe_cmd(char **args);
 void memory(char *line, char **args);
 
+/*string.h*/
+int _strcmp(char *s1, char *s2);
+
 #endif

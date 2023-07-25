@@ -17,7 +17,7 @@ int exe_cmd(char **args)
 	if (args == NULL || args[0] == NULL)
 		return (0);
 
-	if (strcmp(args[0], "exit") == 0)
+	if (_strcmp(args[0], "exit") == 0)
 		return (-1);
 	pid = fork();
 	if (pid == 0)

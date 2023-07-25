@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * _strcmp -to compare string values
  * @s1: input value
