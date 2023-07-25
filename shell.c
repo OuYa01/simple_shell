@@ -30,6 +30,7 @@ int main(void)
 		}
 		stat = exe_cmd(args);
 		memory(input, args);
+		return (0);
 	} while (stat != -1); /*Continue until -1 : run until user type exit*/
 
 	return (0);
