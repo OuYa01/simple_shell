@@ -23,7 +23,7 @@ char **break_line(char *line)
 		if (i == size)
 		{
 			size = size + 10;
-			args = _realloc(args, sizeof(char *) * (size + 1), sizeof(char *));
+			args = _realloc(args, 8 * (size + 1), 8);
 			if (args == NULL)
 				return (NULL);
 		}
