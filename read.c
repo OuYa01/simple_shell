@@ -17,6 +17,7 @@ char *read_line()
 	{
 		if (isatty(STDIN_FILENO))
 			perror("error");
+		if (buffer != NULL)
 		free(buffer);
 		return (NULL);
 	}
