@@ -9,7 +9,7 @@
 #include <string.h>
 
 #define DEL " \t\r\n\a"
-
+#define BUFFER_SIZE 1024
 
 char *read_line();
 char **break_line(char *line);
@@ -20,4 +20,6 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /*string.h*/
 int _strcmp(char *s1, char *s2);
 
+/*getline*/
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 #endif

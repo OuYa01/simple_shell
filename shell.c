@@ -11,8 +11,7 @@ int main(void)
 	char **args;
 	int stat;
 
-	do
-	{
+	do {
 		if (isatty(STDIN_FILENO))
 			write(1, "ous&zoh$ ", 9); /*prompt*/
 		input = read_line();
@@ -29,8 +28,7 @@ int main(void)
 		}
 		stat = exe_cmd(args);
 		memory(input, args);
-	}
-	while (stat != -1); /*Continue until -1 : run until user type exit*/
+	} while (stat != -1); /*Continue until -1 : run until user type exit*/
 
 	return (0);
 }
