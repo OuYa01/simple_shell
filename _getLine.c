@@ -10,8 +10,6 @@ ssize_t _getline(char **buffptr, size_t *sptr, FILE *stream)
 {
 	static char buffer[BUFFER_SIZE];
 	static size_t start, end;
-	size_t i;
-	ssize_t read_size;
 
 	if (buffptr == NULL || sptr == NULL || stream == NULL)
 		return (-1);
@@ -19,14 +17,14 @@ ssize_t _getline(char **buffptr, size_t *sptr, FILE *stream)
 	{
 		*sptr = BUFFER_SIZE;
 		*buffptr = malloc(*sptr);
-		if (*buffptr == NULL)
 			return (-1);
 	}
-	for (i = 0;;)
+	for (size_t i = 0;;)
 	{
 		if (start >= end)
 		{
-			read_size = read(fileno(stream), buffer, BUFFER_SIZE);
+			ssize_t read_size = read(fileno(stream), buffer, BUFFER_SIZE);
+
 			if (read_size <= 0)
 				return (read_size);
 			start = 0;
