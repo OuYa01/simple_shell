@@ -11,11 +11,19 @@
 #define DEL " \t\r\n\a"
 #define BUFFER_SIZE 1024
 
-char *read_line();
-char **break_line(char *line);
-int exe_cmd(char **args);
-void memory(char *line, char **args);
+
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+
+/* put.c */
+int _putchar(char c);
+void _puts(char *str);
+int _putsfd(char *str, int fd);
+int _putfd(char c, int fd);
+/*put.c*/
+
+/*env.c*/
+int pop_envList(info_t *info);
+/*env.c*/
 
 /*string.h*/
 int _strcmp(char *s1, char *s2);
