@@ -37,6 +37,14 @@ ssize_t get_input(info_t *info);
 void sigintHandler(__attribute__((unused))int sig_num);
 /*getline*/
 
+
+/*getenv*/
+char **get_env(info_t *infArray);
+int _unsetenv(info_t *infArray, char *envv);
+int _setenv(info_t *infArray, char *envv, char *val);
+/*getenv*/
+
+
 /*lists*/
 /*I*/
 list_t *add_node_start(list_t **hd, const char *strctr, int ni);
