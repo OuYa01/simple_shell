@@ -99,4 +99,9 @@ void _puts(char *str);
 int _putchar(char c);
 /*string.c*/
 
+
+/*tokenz*/
+char **strtow(char *str, char *d);
+char **strtow2(char *str, char d);
+/*tokenz*/
 #endif
