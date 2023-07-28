@@ -18,10 +18,12 @@ int find_builtin(info_t *infArray);
 void find_cmd(info_t *infArray);
 void fork_cmd(info_t *infArray);
 /*shellloop*/
+
 /*m*/
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_setMem(char *s, char b, unsigned int n);
 void ffree(char **pp);
+int bfree(void **ptr);
 /*m*/
 
 /* eput.c */
@@ -47,12 +49,26 @@ ssize_t get_input(info_t *info);
 void sigintHandler(__attribute__((unused))int sig_num);
 /*getline*/
 
+/*getinfo*/
+void clear_info(info_t *infArray);
+void set_info(info_t *infArray, char **argv);
+void free_info(info_t *infArray, int all);
+/*getinfo*/
+
 
 /*getenv*/
 char **get_env(info_t *infArray);
 int _unsetenv(info_t *infArray, char *envv);
 int _setenv(info_t *infArray, char *envv, char *val);
 /*getenv*/
+
+/*history.c*/
+char *get_history_file(info_t *info);
+int write_history(info_t *info);
+int read_history(info_t *info);
+int build_history_list(info_t *info, char *buf, int linecount);
+int renumber_history(info_t *info);
+/*history.c*/
 
 
 /*lists*/
