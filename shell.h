@@ -23,7 +23,19 @@ int _putfd(char c, int fd);
 
 /*env.c*/
 int pop_envList(info_t *info);
+int _myEnv(info_t *infArray);
+char *_get_myEnv(info_t *infArray, const char *call);
+int _set_myEnv(info_t *infArray);
+int _unset_myEnv(info_t *infArray);
 /*env.c*/
+
+/*lists*/
+ssize_t get_node_index(list_t *head, list_t *node);
+list_t *node_starts_with(list_t *node, char *prefix, char c);
+size_t list_len(const list_t *h);
+size_t print_list(const list_t *h);
+char **list_to_strings(list_t *head);
+/*lists*/
 
 /*string.h*/
 int _strcmp(char *s1, char *s2);
