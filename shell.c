@@ -25,11 +25,11 @@ int main(int argc, char **argv)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_puts(argv[0]);
-				_puts(": 0: Can't open ");
-				_puts(argv[1]);
-				_putchar('\n');
-				_putchar(BUF_FLUSH);
+				_eputs(argv[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(argv[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);

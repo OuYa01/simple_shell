@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * _puts - prints a string.
+ * _eputs - prints a string
  *
- * @str: The string to print.
+ * @str: The string to print
  *
  * Return: nothing
  */
-void _puts(char *str)
+void _eputs(char *str)
 {
 	if (!str)
 	{
@@ -16,21 +16,20 @@ void _puts(char *str)
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		_putchar(str[i]);
+		_eputchar(str[i]);
 	}
 
-	_putchar('\n');
 }
 
 
 /**
- * _putchar - writes the character c
+ * _eputchar - writes the character c
  *
  * @c: The character to print
  *
  * Return:  1 to succ. On error, -1 is returned.
  */
-int _putchar(char c)
+int _eputchar(char c)
 {
 	static int i;
 	static char buffer[WRITE_BUF_SIZE];

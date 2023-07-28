@@ -1,50 +1,178 @@
 #include "shell.h"
+
 /**
  * _getline - it reads the entire line from stream
- * @buffptr: pointer to the buffer that will hold the line
- * @sptr: pointer to the size of the buffer
- * @stream: file to read from
- * Return: number of characters read, or -1 on error or EOF
+ *
+ * @info: parameter
+ *
+ * @ptr: address of pointer to buffer
+ *
+ * @length: size of preallocated
+ *
+ * Return: number of characters read, or -1
  */
-ssize_t _getline(char **buffptr, size_t *sptr, FILE *stream)
+int _getline(info_t *info, char **ptr, size_t *length)
 {
-	static char buffer[BUFFER_SIZE];
-	static size_t start, end;
+	static char buffer[READ_BUF_SIZE];
+	static size_t i, len;
+	size_t k;
+	ssize_t r = 0, s = 0;
+	char *p = NULL, *new_p = NULL, *c;
 
-	if (buffptr == NULL || sptr == NULL || stream == NULL)
+	p = *ptr;
+	if (p && length)
+		s = *length;
+	if (i == len)
+		i = len = 0;
+
+	r = read_buffer(info, buffer, &len);
+	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
-	if (*buffptr == NULL)
-	{
-		*sptr = BUFFER_SIZE;
-		*buffptr = malloc(*sptr);
-			return (-1);
-	}
-	for (size_t i = 0;;)
-	{
-		if (start >= end)
-		{
-			ssize_t read_size = read(fileno(stream), buffer, BUFFER_SIZE);
 
-			if (read_size <= 0)
-				return (read_size);
-			start = 0;
-			end = read_size;
-		}
-		for (; start < end; start++)
+	c = _strchr(buffer + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buffer) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
+	if (!new_p)
+		return (p ? free(p), -1 : -1);
+
+	if (s)
+		_strncat(new_p, buffer + i, k - i);
+	else
+		_strncpy(new_p, buffer + i, k - i + 1);
+
+	s += k - i;
+	i = k;
+	p = new_p;
+
+	if (length)
+		*length = s;
+	*ptr = p;
+	return (s);
+}
+
+
+/**
+ * read_buffer - read a buffer
+ *
+ * @info: parameter
+ *
+ * @buf: buffer
+ *
+ * @i: size
+ *
+ * Return: r
+ */
+ssize_t read_buffer(info_t *info, char *buf, size_t *i)
+{
+	ssize_t r = 0;
+
+	if (*i)
+		return (0);
+	r = read(info->readfd, buf, READ_BUF_SIZE);
+	if (r >= 0)
+		*i = r;
+	return (r);
+}
+
+
+/**
+ * input_buf - buffers chained commands
+ * @info: parameter struct
+ * @buf: address of buffer
+ * @len: address of len var
+ *
+ * Return: bytes read
+ */
+ssize_t input_buf(info_t *info, char **buf, size_t *len)
+{
+	ssize_t r = 0;
+	size_t len_p = 0;
+
+	if (!*len)
+	{
+		free(*buf);
+		*buf = NULL;
+		signal(SIGINT, sigintHandler);
+#if USE_GETLINE
+		r = getline(buf, &len_p, stdin);
+#else
+		r = _getline(info, buf, &len_p);
+#endif
+		if (r > 0)
 		{
-			if (i >= *sptr - 1)
+			if ((*buf)[r - 1] == '\n')
 			{
-				*sptr *= 2;
-				*buffptr = realloc(*buffptr, *sptr);
-				if (*buffptr == NULL)
-					return (-1);
+				(*buf)[r - 1] = '\0';
+				r--;
 			}
-			(*buffptr)[i++] = buffer[start];
-			if ((*buffptr)[i - 1] == '\n')
+			info->linecount_flag = 1;
+			remove_comments(*buf);
+			build_history_list(info, *buf, info->histcount++);
 			{
-				(*buffptr)[i] = '\0';
-				return (i);
+				*len = r;
+				info->cmd_buf = buf;
 			}
 		}
 	}
+	return (r);
+}
+
+
+/**
+ * get_input - gets a line minus the newline
+ * @info: parameter struct
+ *
+ * Return: bytes read
+ */
+ssize_t get_input(info_t *info)
+{
+	static char *buf;
+	static size_t i, j, len;
+	ssize_t r = 0;
+	char **buf_p = &(info->arg), *p;
+
+	_putchar(BUF_FLUSH);
+	r = input_buf(info, &buf, &len);
+	if (r == -1) /* EOF */
+		return (-1);
+	if (len)
+	{
+		j = i;
+		p = buf + i;
+
+		check_chain(info, buf, &j, i, len);
+		while (j < len)
+		{
+			if (is_chain(info, buf, &j))
+				break;
+			j++;
+		}
+
+		i = j + 1;
+		if (i >= len)
+		{
+			i = len = 0;
+			info->cmd_buf_type = CMD_NORM;
+		}
+
+		*buf_p = p;
+		return (_strlen(p));
+	}
+
+	*buf_p = buf;
+	return (r);
+}
+
+
+/**
+ * sigintHandler - blocks ctrl-C
+ * @sig_num: the signal number
+ *
+ * Return: void
+ */
+void sigintHandler(__attribute__((unused))int sig_num)
+{
+	_puts("\n");
+	_puts("$ ");
+	_putchar(BUF_FLUSH);
 }
