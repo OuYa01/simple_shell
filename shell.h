@@ -11,6 +11,13 @@
 #define DEL " \t\r\n\a"
 #define BUFFER_SIZE 1024
 
+
+/*shellloop*/
+int hsh(info_t *infArray, char **argv);
+int find_builtin(info_t *infArray);
+void find_cmd(info_t *infArray);
+void fork_cmd(info_t *infArray);
+/*shellloop*/
 /*m*/
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_setMem(char *s, char b, unsigned int n);
