@@ -62,8 +62,12 @@ size_t print_list(const list_t *h);
 char **list_to_strings(list_t *head);
 /*lists*/
 
-/*string.h*/
+/*string.c*/
 int _strcmp(char *s1, char *s2);
+int _strlen(char *s);
+char *_strcat(char *dest, char *src);
+char *starts_with(const char *haystack, const char *needle);
+/*string.c*/
 
 /*getline*/
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
