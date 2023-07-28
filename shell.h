@@ -30,9 +30,18 @@ int _unset_myEnv(info_t *infArray);
 /*env.c*/
 
 /*lists*/
+/*I*/
+list_t *add_node_start(list_t **hd, const char *strctr, int ni);
+list_t *add_node(list_t **hd, const char *strctr, int ni);
+size_t list_strPrint(const list_t *pn);
+int delete_node(list_t **hd, unsigned int in);
+void free_node_list(list_t **hd_ptr);
+
+
+/*II*/
 ssize_t get_node_index(list_t *head, list_t *node);
-list_t *node_starts_with(list_t *node, char *prefix, char c);
-size_t list_len(const list_t *h);
+list_t *node_starts(list_t *node, char *prefix, char c);
+size_t list_length(const list_t *h);
 size_t print_list(const list_t *h);
 char **list_to_strings(list_t *head);
 /*lists*/

@@ -24,7 +24,7 @@ ssize_t get_node_index(list_t *head, list_t *node)
 
 
 /**
- * node_starts_with - find a node in the linked list
+ * node_starts - find a node in the linked list
  *
  * @node: pointer to  head
  *
@@ -35,7 +35,7 @@ ssize_t get_node_index(list_t *head, list_t *node)
  *
  * Return: pointer to the first matching node or NULL
  */
-list_t *node_starts_with(list_t *node, char *prefix, char c)
+list_t *node_starts(list_t *node, char *prefix, char c)
 {
 	char *p = NULL;
 
@@ -51,12 +51,12 @@ list_t *node_starts_with(list_t *node, char *prefix, char c)
 
 
 /**
- * list_len - determines length of linked list
+ * list_length - determines length of linked list
  * @h: pointer to first node
  *
  * Return: size of list
  */
-size_t list_len(const list_t *h)
+size_t list_length(const list_t *h)
 {
 	size_t i;
 
