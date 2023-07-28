@@ -11,8 +11,11 @@
 #define DEL " \t\r\n\a"
 #define BUFFER_SIZE 1024
 
-
+/*m*/
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char *_setMem(char *s, char b, unsigned int n);
+void ffree(char **pp);
+/*m*/
 
 /* eput.c */
 int _eputchar(char c);
@@ -69,6 +72,4 @@ char *_strcat(char *dest, char *src);
 char *starts_with(const char *haystack, const char *needle);
 /*string.c*/
 
-/*getline*/
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 #endif
