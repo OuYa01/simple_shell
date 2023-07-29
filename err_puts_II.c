@@ -2,119 +2,119 @@
 
 /**
  * _erratoi - converts a string to an integer
- * @str: the string to be converted
+ * @s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
-int _erratoi(char *str)
+int _erratoi(char *s)
 {
 	int i = 0;
-	unsigned long int rslt = 0;
+	unsigned long int result = 0;
 
-	if (*str == '+')
-		str++;  /* TODO: why does this make main return 255? */
-	for (i = 0;  str[i] != '\0'; i++)
+	if (*s == '+')
+		s++;  /* TODO: why does this make main return 255? */
+	for (i = 0;  s[i] != '\0'; i++)
 	{
-		if (str[i] >= '0' && str[i] <= '9')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
-			rslt *= 10;
-			rslt += (str[i] - '0');
-			if (rslt > INT_MAX)
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (rslt);
+	return (result);
 }
 
 /**
  * print_error - prints an error message
- * @infArray: the parameter & return info struct
- * @errstr: string containing specified error type
+ * @info: the parameter & return info struct
+ * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
  *        -1 on error
  */
-void print_error(info_t *infArray, char *errstr)
+void print_error(info_t *info, char *estr)
 {
-	_eputs(infArray->fname);
+	_eputs(info->fname);
 	_eputs(": ");
-	print_d(infArray->line_count, STDERR_FILENO);
+	print_d(info->line_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(infArray->argv[0]);
+	_eputs(info->argv[0]);
 	_eputs(": ");
-	_eputs(errstr);
+	_eputs(estr);
 }
 
 /**
  * print_d - function prints a decimal (integer) number (base 10)
- * @in: the input
- * @fileDesc: the filedescriptor to write to
+ * @input: the input
+ * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
  */
-int print_d(int in, int fileDesc)
+int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int i, cnt = 0;
+	int i, count = 0;
 	unsigned int _abs_, current;
 
-	if (fileDesc == STDERR_FILENO)
+	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
-	if (in < 0)
+	if (input < 0)
 	{
-		_abs_ = -in;
+		_abs_ = -input;
 		__putchar('-');
-		cnt++;
+		count++;
 	}
 	else
-		_abs_ = in;
+		_abs_ = input;
 	current = _abs_;
 	for (i = 1000000000; i > 1; i /= 10)
 	{
 		if (_abs_ / i)
 		{
 			__putchar('0' + current / i);
-			cnt++;
+			count++;
 		}
 		current %= i;
 	}
 	__putchar('0' + current);
-	cnt++;
+	count++;
 
-	return (cnt);
+	return (count);
 }
 
 /**
  * convert_number - converter function, a clone of itoa
- * @n: number
- * @bs: base
- * @fl: argument flags
+ * @num: number
+ * @base: base
+ * @flags: argument flags
  *
  * Return: string
  */
-char *convert_number(long int n, int bs, int fl)
+char *convert_number(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
 	char sign = 0;
 	char *ptr;
-	unsigned long num = n;
+	unsigned long n = num;
 
-	if (!(fl & CONVERT_UNSIGNED) && n < 0)
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
-		num = -n;
+		n = -num;
 		sign = '-';
 
 	}
-	array = fl & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[49];
 	*ptr = '\0';
 
 	do	{
-		*--ptr = array[n % bs];
-		num /= bs;
-	} while (num != 0);
+		*--ptr = array[n % base];
+		n /= base;
+	} while (n != 0);
 
 	if (sign)
 		*--ptr = sign;
@@ -132,7 +132,7 @@ void remove_comments(char *buf)
 	int i;
 
 	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buff[i - 1] == ' '))
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
 		{
 			buf[i] = '\0';
 			break;

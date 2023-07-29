@@ -1,89 +1,93 @@
 #include "shell.h"
 
 /**
- * get_env - returns string array copy of the environ
- * @infArray: Str contains potential args, to maintain const funct prototype.
+ * get_environ - returns the string array copy of our environ
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
  * Return: Always 0
  */
-char **get_env(info_t *infArray)
+char **get_environ(info_t *info)
 {
-	if (!infArray->environ || infArray->environ_changed)
+	if (!info->environ || info->env_changed)
 	{
-		infArray->environ = listOfStrings(infArray->env);
-		infArray->environ_changed = 0;
+		info->environ = list_to_strings(info->env);
+		info->env_changed = 0;
 	}
 
-	return (infArray->environ);
+	return (info->environ);
 }
 
 /**
  * _unsetenv - Remove an environment variable
- * @infArray: Str contains potential args, to maintain const funct prototype.
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
  *  Return: 1 on delete, 0 otherwise
- * @envv: the string env var property
+ * @var: the string env var property
  */
-int _unsetenv(info_t *infArray, char *envv)
+int _unsetenv(info_t *info, char *var)
 {
-	list_t *nd = infArray->env;
+	list_t *node = info->env;
 	size_t i = 0;
-	char *a;
+	char *p;
 
-	if (!nd || !envv)
+	if (!node || !var)
 		return (0);
 
-	while (nd)
+	while (node)
 	{
-		a = starts_with(nd->strctr, envv);
-		if (a && *a == '=')
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
-			infArray > environ_changed = delete_node(&(infArray->env), i);
+			info->env_changed = delete_node_at_index(&(info->env), i);
 			i = 0;
-			nd = infArray->env;
+			node = info->env;
 			continue;
 		}
-		nd = nd->next;
+		node = node->next;
 		i++;
 	}
-	return (infArray->environ_changed);
+	return (info->env_changed);
 }
 
 /**
- * _setenv - Initialize an env var, or modify an existing one
- * @infArray: Str contains potential args, to maintain const funct prototype.
- * @envv: the string env var property
- * @val: the string env var value
+ * _setenv - Initialize a new environment variable,
+ *             or modify an existing one
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ * @var: the string env var property
+ * @value: the string env var value
  *  Return: Always 0
  */
-int _setenv(info_t *infArray, char *envv, char *val)
+int _setenv(info_t *info, char *var, char *value)
 {
-	char *buff = NULL;
-	list_t *nd;
-	char *a;
+	char *buf = NULL;
+	list_t *node;
+	char *p;
 
-	if (!envv || !val)
+	if (!var || !value)
 		return (0);
 
-	buff = malloc(_strlen(envv) + _strlen(val) + 2);
-	if (!buff)
+	buf = malloc(_strlen(var) + _strlen(value) + 2);
+	if (!buf)
 		return (1);
-	_strcpy(buff, envv);
-	_strcat(buff, "=");
-	_strcat(buff, val);
-	nd = infArray->env;
-	while (nd)
+	_strcpy(buf, var);
+	_strcat(buf, "=");
+	_strcat(buf, value);
+	node = info->env;
+	while (node)
 	{
-		a = starts_with(nd->strctr, envv);
-		if (a && *a == '=')
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
-			free(nd->strctr);
-			nd->strctr = buff;
-			infArray->environ_changed = 1;
+			free(node->str);
+			node->str = buf;
+			info->env_changed = 1;
 			return (0);
 		}
-		nd = nd->next;
+		node = node->next;
 	}
-	add_node(&(infArray->env), buff, 0);
-	free(buff);
-	infArray->environ_changed = 1;
+	add_node_end(&(info->env), buf, 0);
+	free(buf);
+	info->env_changed = 1;
 	return (0);
 }
