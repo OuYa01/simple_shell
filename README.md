@@ -2,8 +2,8 @@
 
 ## Resources
 
-* [](https://en.wikipedia.org/wiki/Unix_shell)
-* [](https://en.wikipedia.org/wiki/Thompson_shell)
+* [unix shell](https://en.wikipedia.org/wiki/Unix_shell)
+* [Thompson shell](https://en.wikipedia.org/wiki/Thompson_shell)
 ## Learning Objectives
 
 ### General
