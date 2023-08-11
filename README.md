@@ -1,5 +1,5 @@
 # Project: 0x16. C - Simple Shell
-![Uploading image.png…]()
+![image](https://github.com/OuYa01/simple_shell/assets/113089521/aa647ab7-c94b-44b7-ab3b-b1f5fc23ea92)
 
 ## Resources
 
